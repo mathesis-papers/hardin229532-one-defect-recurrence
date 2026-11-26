@@ -1,0 +1,165 @@
+{
+  "width_six": {
+    "literal_rows_enumerated": 729,
+    "valid_row_budget_pairs": 432,
+    "states": 42,
+    "states_by_budget": {
+      "0": 32,
+      "1": 10
+    },
+    "recurrence_heights": [
+      20,
+      212
+    ],
+    "table_heights": [
+      1,
+      210
+    ],
+    "table_entries": 210,
+    "initial_values": [
+      40,
+      368,
+      7460,
+      130854,
+      2171944,
+      34811238,
+      544403948,
+      8359264560,
+      126546766896,
+      1894158617022,
+      28090954101848,
+      413405522888606,
+      6044542909770790,
+      87888904584082718,
+      1271780829814090170,
+      18325726435067557004,
+      263085674651946359062,
+      3764440162401299714436,
+      53705940645374818305126,
+      764172997462195147430330
+    ],
+    "direct_row_major_counts_heights_1_to_4": [
+      40,
+      368,
+      7460,
+      130854
+    ],
+    "single_row_counts_widths_1_to_12": [
+      0,
+      1,
+      2,
+      6,
+      16,
+      40,
+      96,
+      224,
+      512,
+      1152,
+      2560,
+      5632
+    ],
+    "earlier_vector_identity_shifts": {
+      "0": false,
+      "1": false,
+      "2": true,
+      "3": true
+    },
+    "minimal_eventual_order": 18,
+    "coprimality_prime": 101,
+    "height_19_recurrence_residual": 864
+  },
+  "sibling_transfers": [
+    {
+      "count": "column-2",
+      "states": 3,
+      "row_budget_pairs": 15,
+      "recurrence_valid_from": 4,
+      "vector_identity_shift": 1,
+      "proper_sector_vector_shift": 0,
+      "finite_scalar_range": [
+        4,
+        81
+      ]
+    },
+    {
+      "count": "column-3",
+      "states": 5,
+      "row_budget_pairs": 36,
+      "recurrence_valid_from": 6,
+      "vector_identity_shift": 1,
+      "proper_sector_vector_shift": 0,
+      "finite_scalar_range": [
+        6,
+        81
+      ]
+    },
+    {
+      "count": "column-4",
+      "states": 10,
+      "row_budget_pairs": 84,
+      "recurrence_valid_from": 6,
+      "vector_identity_shift": 2,
+      "proper_sector_vector_shift": 0,
+      "finite_scalar_range": [
+        6,
+        81
+      ]
+    },
+    {
+      "count": "column-5",
+      "states": 20,
+      "row_budget_pairs": 192,
+      "recurrence_valid_from": 14,
+      "vector_identity_shift": 1,
+      "proper_sector_vector_shift": 0,
+      "finite_scalar_range": [
+        14,
+        81
+      ]
+    },
+    {
+      "count": "row-2",
+      "states": 4,
+      "row_budget_pairs": 18,
+      "recurrence_valid_from": 5,
+      "vector_identity_shift": 0,
+      "proper_sector_vector_shift": 0,
+      "finite_scalar_range": [
+        5,
+        81
+      ]
+    },
+    {
+      "count": "row-3",
+      "states": 8,
+      "row_budget_pairs": 54,
+      "recurrence_valid_from": 9,
+      "vector_identity_shift": 2,
+      "proper_sector_vector_shift": 1,
+      "finite_scalar_range": [
+        9,
+        81
+      ]
+    },
+    {
+      "count": "row-4",
+      "states": 20,
+      "row_budget_pairs": 162,
+      "recurrence_valid_from": 15,
+      "vector_identity_shift": 2,
+      "proper_sector_vector_shift": 1,
+      "finite_scalar_range": [
+        15,
+        81
+      ]
+    }
+  ],
+  "sum_two_width_six": {
+    "proper_states": 10,
+    "proper_vector_identity_shift": 0,
+    "recurrence_valid_from": 20,
+    "minimal_eventual_order": 18,
+    "height_19_residual": 5184
+  },
+  "arithmetic": "Exact integers and the explicitly indicated finite field of order 101"
+}

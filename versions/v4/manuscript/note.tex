@@ -1,0 +1,611 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,booktabs,array}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\usepackage{xurl}
+\hypersetup{pdftitle={Proof of Hardin's width-six three-colour one-defect recurrence},pdfauthor={Haobo Ma; Wenlin Zhang},pdfsubject={One-defect strip colourings; CC BY 4.0}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\ind}{\mathbf 1}
+\title{Proof of Hardin's width-six three-colour one-defect recurrence}
+\author{Haobo Ma\\\small ChronoAI Pte Ltd, Singapore
+\and Wenlin Zhang\\\small National University of Singapore\\\small ChronoAI Pte Ltd, Singapore}
+\date{20 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove the empirical order-eighteen recurrence in R.\ H.\ Hardin's
+OEIS entry A229532, Formula field, revision~8 of 27 April 2021, for
+three-colour $n\times6$ arrays with exactly one monochromatic horizontal,
+diagonal or antidiagonal bond, for every $n\geq20$.
+An exact transfer on 42 row-and-defect-budget classes gives a finite
+integer certificate for all heights, rather than a test of a finite prefix.
+We also obtain the reduced rational generating function, prove that
+eighteen is the minimal eventual constant-coefficient recurrence order over $\Q$, and show
+that the stated recurrence fails at height nineteen by exactly $864$.
+The same construction proves seven related recurrences for widths
+two through five and heights two through four in Hardin's table A229534.
+A coefficient-extraction formula explains the squared-denominator bounds
+for one-defect counts on every fixed strip.
+\end{abstract}
+
+\section{The counting problem and the recurrence}
+
+The vertices of a strip are $(i,j)$, where $1\leq i\leq n$ and
+$1\leq j\leq6$. Its edges are
+\[
+\begin{aligned}
+ (i,j)(i,j+1) &\qquad(1\leq i\leq n,\ 1\leq j<6),\\
+ (i,j)(i+1,j+1),\quad(i,j+1)(i+1,j)
+ &\qquad(1\leq i<n,\ 1\leq j<6).
+\end{aligned}
+\]
+There are no vertical edges, and the two diagonals of a square do not
+have a vertex at their crossing. A defect is an edge whose endpoints have
+the same colour. Let $a_n$ count colourings with colours in $\{0,1,2\}$,
+exactly one defect, and colours introduced in row-major order: the first
+colour is $0$, the next new colour is $1$, and the last new colour is $2$.
+This is Hardin's definition~\cite{hardin}; his initial values are
+\[
+40,\quad368,\quad7460,\quad130854,\quad2171944,\quad34811238.
+\]
+
+\begin{theorem}\label{thm:recurrence}
+For every $n\geq20$,
+\begin{equation}\label{eq:recurrence}
+ a_n=\sum_{j=0}^{17}c_j a_{n-18+j},
+\end{equation}
+where the coefficients, in increasing order of $j$, are
+\begin{equation}\label{eq:coefficients}
+\begin{aligned}
+(c_0,\ldots,c_{17})={}&(-25,240,204,-6334,6468,42628,\\
+ &-83203,-34136,160400,-40816,-108224,56184,\\
+ &23849,-19128,340,1854,-436,36).
+\end{aligned}
+\end{equation}
+At $n=19$, the left side of~\eqref{eq:recurrence} minus its right side is
+$864$. Its minimal eventual homogeneous constant-coefficient recurrence
+order over $\Q$ is eighteen.
+\end{theorem}
+
+The height-uniform spin-transfer method is standard; Salas and Sokal
+give the general layered-graph construction in Section~3.1,
+equations~(3.1)--(3.11) of~\cite{salas-sokal}. Here the transfer additionally
+records whether the one allowed defect remains available. The specific
+coefficient identity below proves Hardin's empirical formula. The rational
+function in Section~\ref{sec:rational} also distinguishes its order from
+an arbitrary annihilating recurrence.
+
+\section{An exact finite transfer}
+
+Write $\mathcal R=\{0,1,2\}^6$ for the set of rows. For $p,r\in\mathcal R$,
+put
+\[
+ h(r)=\sum_{j=1}^5\ind_{r_j=r_{j+1}},\qquad
+ b(p,r)=\sum_{j=1}^5
+   \bigl(\ind_{p_j=r_{j+1}}+\ind_{p_{j+1}=r_j}\bigr).
+\]
+Thus appending $r$ to $p$ introduces exactly $b(p,r)+h(r)$ defects.
+For a row $r$, let $\operatorname{can}(r)$ relabel its colours by first
+appearance from left to right. If $r^{\rm rev}$ is its reversal, set
+\[
+ \rho(r)=\min\{\operatorname{can}(r),
+                       \operatorname{can}(r^{\rm rev})\},
+\]
+using lexicographic order. This chooses one representative under colour
+permutations and reflection. Define the state set
+\[
+ \mathcal S=\{(\rho(r),d):r\in\mathcal R,\ d\in\{0,1\},\ h(r)\leq1-d\}.
+\]
+Here $d$ is the remaining defect budget. There are 42 states: 32 with
+$d=0$ and ten with $d=1$. Order them first by $d$, then lexicographically
+by the row. This specifies every index in the following matrix and vectors.
+
+For $s=(p,d)$ and $t=(q,e)$ in $\mathcal S$, define
+\begin{equation}\label{eq:matrix}
+ M_{s,t}=\#\{r\in\mathcal R:\rho(r)=q,
+                   \ b(p,r)+h(r)=d-e\},
+\end{equation}
+and define a row vector $u$ and column vector $v$ by
+\begin{equation}\label{eq:boundary}
+ u_{(q,e)}=\#\{r\in\mathcal R:\rho(r)=q,\ h(r)=1-e\},
+ \qquad v_{(q,e)}=\ind_{e=0}.
+\end{equation}
+All entries are nonnegative integers. In~\eqref{eq:matrix}, $p$ is the
+specified representative, whereas $r$ ranges over actual labelled rows.
+
+\begin{lemma}\label{lem:transfer}
+The number of labelled height-$n$ colourings with exactly one defect is
+$uM^{n-1}v$. Moreover,
+\begin{equation}\label{eq:orbit}
+ 6a_n=uM^{n-1}v\qquad(n\geq1).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Simultaneously permuting the colours of $p$ and $r$, or simultaneously
+reversing them, preserves both $h(r)$ and $b(p,r)$. Each operation is a
+bijection of the possible following rows, preserving their state classes.
+Consequently~\eqref{eq:matrix} gives the same transition counts from every
+actual row in the class of $p$.
+
+The initial vector counts every possible first row whose horizontal
+defect count is at most one. When a new row is appended, its horizontal
+bonds and its bonds to the preceding row are new and are counted exactly
+once. Subtracting their defect count from $d$ gives the next budget $e$.
+Induction on the number of rows therefore proves that $uM^{n-1}$ counts
+all partial colourings by their last-row state and remaining budget.
+Multiplication by $v$ selects precisely those whose budget is exhausted.
+
+A constant colouring has $5n+10(n-1)=15n-10\geq5$ defects, so any
+colouring counted here uses at least two colours. A permutation of three
+colours fixing such a colouring fixes two colours and hence all three.
+Thus every colour-permutation orbit has size six. Each has exactly one
+row-major first-appearance representative. This proves~\eqref{eq:orbit}.
+Notice that reflection reduces boundary states only; the arrays themselves
+are not identified under reflection.
+\end{proof}
+
+\subsection*{The finite integer identities}
+For $k\geq0$, write $U_k=uM^k$ and put
+\[
+ P(x)=x^{18}-\sum_{j=0}^{17}c_jx^j.
+\]
+The finite certificate consists of
+\begin{align}
+ U_{20}&=\sum_{j=0}^{17}c_j U_{2+j},\label{eq:vectorcertificate}\\
+ U_{19}v&=\sum_{j=0}^{17}c_j U_{1+j}v.\label{eq:scalarcertificate}
+\end{align}
+Equivalently, $uM^2P(M)=0$ and $uMP(M)v=0$.
+Equations~\eqref{eq:matrix}--\eqref{eq:boundary} determine these integers
+without any input data. The accompanying \texttt{verify.py} enumerates
+the $3^6=729$ rows, constructs $M,u,v$, and checks these two identities
+using integer arithmetic. It also checks the transition counts for all
+432 admissible labelled row-and-budget pairs. The resulting explicit
+matrix, vectors and zero residuals are in \texttt{certificate.json}.
+In particular, the finite premise is a vector identity, not the observation
+that a scalar sequence satisfies a recurrence for many initial heights.
+
+For completeness, the arithmetic defining the certificate can be expressed
+by the following finite loops. Start with zero $M,u,v$ and use the ordered
+set $\mathcal S$ defined above:
+\[
+\begin{array}{ll}
+u_{(\rho(r),1-h(r))}\mathrel{+}=1
+  &\text{for every $r\in\mathcal R$ with $h(r)\leq1$};\\
+M_{(p,d),(\rho(r),d-b(p,r)-h(r))}\mathrel{+}=1
+  &\text{for every $(p,d)\in\mathcal S$, $r\in\mathcal R$}\\
+  &\text{with $b(p,r)+h(r)\leq d$};\\
+v_{(p,d)}=\ind_{d=0},\qquad U_0=u,\quad U_{k+1}=U_kM
+  &\text{for $0\leq k<20$}.
+\end{array}
+\]
+Substitution of these values in~\eqref{eq:vectorcertificate} gives 42
+zero coordinates; substitution in~\eqref{eq:scalarcertificate} gives zero.
+
+\begin{proof}[Proof of the recurrence in Theorem~\ref{thm:recurrence}]
+Equation~\eqref{eq:scalarcertificate} and Lemma~\ref{lem:transfer} give
+the case $n=20$. For $n\geq21$, multiply~\eqref{eq:vectorcertificate}
+on the right by $M^{n-21}v$. Its left side is $uM^{n-1}v$ and its
+$j$th term on the right is $c_j uM^{n-19+j}v$.
+By~\eqref{eq:orbit}, these equal $6a_n$ and $6c_j a_{n-18+j}$.
+Cancellation of six proves~\eqref{eq:recurrence} for every $n\geq20$.
+\end{proof}
+
+\section{The generating function and exact order}\label{sec:rational}
+
+Let $F(z)=\sum_{n\geq1}a_nz^{n-1}$. Define
+\begin{align*}
+ Q(z)={}&1-18z+56z^2+81z^3-280z^4-12z^5\\
+        &\hspace{14mm}+259z^6-78z^7-24z^8+5z^9,\\
+ N(z)={}&40-1072z+11652z^2-51418z^3+17888z^4\\
+        &+482758z^5-887608z^6-1181248z^7+3582872z^8+150632z^9\\
+        &-4858648z^{10}+1837568z^{11}+2345798z^{12}
+                -1492202z^{13}-150350z^{14}\\
+        &+213044z^{15}-9542z^{16}-7988z^{17}+864z^{18}.
+\end{align*}
+
+\begin{proposition}\label{prop:gf}
+The rational function $F(z)=N(z)/Q(z)^2$ is reduced over $\Q$.
+Consequently the recurrence order eighteen in
+Theorem~\ref{thm:recurrence} is minimal even among homogeneous
+constant-coefficient recurrences required only at sufficiently large heights.
+\end{proposition}
+\begin{proof}
+Put $D(z)=1-\sum_{j=0}^{17}c_jz^{18-j}$. Direct multiplication gives
+$D(z)=Q(z)^2$. By the recurrence, the coefficient of $z^k$ in $D(z)F(z)$
+vanishes for every $k\geq19$. For $0\leq k\leq18$, that coefficient is
+\[
+ [z^k]D(z)F(z)=\sum_{i=0}^k [z^i]D(z)\,a_{k-i+1}.
+\]
+The initial values obtained from~\eqref{eq:orbit} give exactly $N(z)$
+as displayed above; these 19 coefficient calculations are included in
+\texttt{verify.py}. Its last coefficient is $864$, which is precisely
+$a_{19}-\sum_{j=0}^{17}c_ja_{1+j}$. This proves the claimed failure at
+height nineteen.
+
+To check reduction, reduce $D$ and $N$ modulo $101$. Their leading
+coefficients are $25$ and $864\equiv56$, both nonzero. The Euclidean
+algorithm gives successive nonzero degrees
+\[
+18,18,17,16,15,14,13,11,10,9,8,7,6,5,4,3,2,1,0;
+\]
+its monic gcd is $1$. These divisions over $\mathbb F_{101}$ are also
+included in the certificate. If $D,N$ had a nonconstant common factor
+over $\Q$, Gauss's lemma would give one with primitive integer
+coefficients. Because neither leading coefficient vanishes modulo $101$,
+its degree would survive reduction and yield a nonconstant common factor
+over $\mathbb F_{101}$, a contradiction.
+
+Finally, any homogeneous constant-coefficient recurrence over $\Q$ of order
+$r$, valid eventually,
+would give a polynomial $R$ with $R(0)=1$, $\deg R\leq r$, and $RF$
+polynomial. Since $F=N/D$ is reduced, $D$ would divide $R$ over $\Q$.
+Thus $r\geq\deg D=18$, while~\eqref{eq:recurrence} attains this bound.
+\end{proof}
+
+\section{Boundary cases, coverage, and verification}
+
+Hardin's two-variable table A229534~\cite{family} includes the present
+sequence as column six. Its single-row case has a short closed count.
+Let $T(n,k)$ denote the canonical count on an $n\times k$ strip with the
+edges specified in Section~1. Thus $a_n=T(n,6)$.
+Let $b_k=T(1,k)$.
+\begin{corollary}\label{cor:boundary}
+The boundary counts are
+\[
+ b_1=0,\qquad b_2=1,\qquad
+ b_k=(k-1)2^{k-3}\quad(k\geq3).
+\]
+Also $T(n,1)=0$ for every $n\geq1$, and
+$b_k=4b_{k-1}-4b_{k-2}$ for every $k\geq5$.
+\end{corollary}
+\begin{proof}
+Choose the unique equal adjacent pair in $k-1$ ways. Its colour
+and all subsequent unequal choices give $3\cdot2^{k-2}$ labelled
+colourings per choice. For $k\geq3$ each uses two or more colours,
+so division by six gives the formula. The cases $k=1,2$ are immediate.
+It follows that $b_k=4b_{k-1}-4b_{k-2}$ for every $k\geq5$, exactly
+the first-row recurrence in A229534. Column one of that table is
+identically zero, since a width-one strip has no bonds.
+This also identifies $b_k$ with Bernhard Wolf's A057711$(k-1)$, whose
+closed formula is recorded in its Name and Formula fields~\cite{boundary-sources}.
+\end{proof}
+
+\subsection{Seven further strip recurrences}
+
+\begin{corollary}\label{cor:siblings}
+For each row of Table~\ref{tab:siblings}, let $A_m$ be the indicated
+count and $r=2\deg q$. Then
+\begin{equation}\label{eq:sibling-recurrence}
+ A_m=-\sum_{j=1}^r [z^j]q(z)^2\,A_{m-j}\qquad(m\geq m_0).
+\end{equation}
+These are the empirical recurrences in the Formula fields of A229534
+and its indicated component entries. In particular,
+\[
+ T(1,2)=1,\qquad T(m,2)=4(2m-1)3^{m-3}\quad(m\geq2).
+\]
+\end{corollary}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{llp{0.43\textwidth}rrr}
+\toprule
+$A_m$ & Entry & $q(z)$ & $m_0$ & $s$ & $L$\\
+\midrule
+$T(m,2)$ & A229534 & $1-3z$ & 4 & 1 & 3\\
+$T(m,3)$ & A229529 & $1-5z+2z^2$ & 6 & 1 & 5\\
+$T(m,4)$ & A229530 & $1-7z+4z^2$ & 6 & 2 & 10\\
+$T(m,5)$ & A229531 & $1-14z+45z^2-15z^3-36z^4+19z^5-2z^6$ & 14 & 1 & 20\\
+$T(2,m)$ & A229535 & $1-2z-2z^2$ & 5 & 0 & 4\\
+$T(3,m)$ & A229536 & $1-3z-4z^2+2z^3$ & 9 & 2 & 8\\
+$T(4,m)$ & A229537 & $1-3z-16z^2+3z^3+25z^4-2z^5-4z^6$ & 15 & 2 & 20\\
+\bottomrule
+\end{tabular}
+\caption{Proved sibling recurrences. $s$ is the vector-identity shift
+and $L$ is the number of states.}\label{tab:siblings}
+\end{table}
+
+\begin{proof}
+For a fixed width $k$, use the construction of Section~2 with rows of
+length $k$ and both diagonal sums extending from $1$ to $k-1$.
+For fixed height $h$, sweep columns of length $h$ instead: the internal
+cost is zero, and the cost between two columns $p,t$ is
+\[
+ c(p,t)=\sum_{i=1}^h\ind_{p_i=t_i}
+       +\sum_{i=1}^{h-1}(\ind_{p_i=t_{i+1}}+\ind_{p_{i+1}=t_i}).
+\]
+Use the same colour-permutation and reversal representatives, remaining
+budget, initialization and terminal vector. The simultaneous symmetry
+argument and the edge-by-edge induction of Lemma~\ref{lem:transfer}
+apply to these costs. Sweeping columns does not change the
+row-major convention: the canonical count is the number of colour
+orbits, independently of the order used to count labelled arrays.
+
+For each case let $M,u,v$ be this transfer, and put
+$P(x)=x^r q(x^{-1})^2$. The accompanying
+\texttt{verify\_siblings.py} constructs every entry from these definitions
+and establishes $uM^sP(M)=0$ with the values $s,L$ in the table.
+For $m\geq r+s+1$, right multiplication by
+$M^{m-r-s-1}v$ proves~\eqref{eq:sibling-recurrence}.
+The width-four case additionally has $uMP(M)v=0$, which gives $m=6$;
+in every other case $m_0=r+s+1$.
+The matrices, vectors, polynomial coefficients and zero residuals
+are specified in \texttt{sibling-certificate.json}.
+
+Division by six is valid except at $T(1,2)$:
+a constant $n\times k$ array has
+$n(k-1)+2(n-1)(k-1)=(3n-2)(k-1)$ defects, which exceeds one when
+$k\geq3$, or when $k=2,n\geq2$. At $k=1$ there are no defects.
+For $T(1,2)$ the three constant labelled rows form one orbit; its
+value is therefore $1$, rather than $3/6$. This exception does not enter
+the width-two recurrence, which starts at $m=4$.
+The initial values $T(2,2)=4$ and $T(3,2)=20$ and the recurrence give
+the displayed closed form. It agrees with the formula for
+A167682$(m-1)$ credited to Colin Barker (21 January 2017)~\cite{boundary-sources}.
+\end{proof}
+
+Colin Barker's empirical generating functions of 18 September 2018 in
+A229529, A229530, A229535 and A229536, and R.\ J.\ Mathar's empirical
+generating function of 13 November 2026 in A229531~\cite{siblings},
+also follow: multiply the series by the squared denominator in
+Table~\ref{tab:siblings}. The recurrence annihilates every coefficient
+from degree $m_0-1$ onward in $\sum_{m\geq1}A_mz^{m-1}$;
+the initial coefficients give the source numerators. These polynomial
+identities are included in \texttt{sibling-certificate.json}.
+The empirical formulas are credited to their contributors, rather than
+attributed here as new formulas.
+
+\subsection{Equivalent sum-two problems}
+
+Hardin's 2016 entries A269033 and A269050~\cite{sum-two} count labelled
+$n\times6$ arrays with respectively exactly one and at most one HDA
+bond whose endpoint values sum to two. They state the same empirical
+recurrence as A229532. Their two-variable versions are A269035 and A269052.
+
+\begin{corollary}\label{cor:sum-two}
+Write $E_n=\mathrm{A269033}(n)$ and $J_n=\mathrm{A269050}(n)$.
+Then $E_n=6a_n$. Both $E_n$ and $J_n$ satisfy
+\eqref{eq:recurrence} for every $n\geq20$, have minimal eventual
+order eighteen, and have discrepancy $+5184$ at $n=19$.
+With $N,Q$ as in Proposition~\ref{prop:gf}, put
+\[
+ H(z)=16-108z-12z^2+520z^3-182z^4-430z^5+180z^6+40z^7-10z^8.
+\]
+Their reduced generating functions are
+\[
+ \sum_{n\geq1}E_nz^{n-1}=\frac{6N(z)}{Q(z)^2},\qquad
+ \sum_{n\geq1}J_nz^{n-1}=\frac{6(N(z)+H(z)Q(z))}{Q(z)^2}.
+\]
+All seven recurrences of Table~\ref{tab:siblings} also hold, with
+the same starting indices, for the corresponding rows and columns
+of each sum-two table A269035 and A269052.
+\end{corollary}
+\begin{proof}
+For every allowed bond the two columns have opposite parities.
+Replace the value $f(i,j)$ by $2-f(i,j)$ in alternate columns,
+leaving the other columns unchanged. This is an involution, and
+$f(x)+f(y)=2$ if and only if the transformed values at $x,y$ agree.
+It therefore preserves the number of exceptional bonds while converting
+the sum-two condition to the equal-colour condition. The free colour
+action for width six gives $E_n=6a_n$.
+
+Let $p_n$ be the canonical count with zero defects on the same width-six
+graph. Restrict the row states of Section~2 to the ten classes with
+$h(r)=0$, and permit only transitions with $b(p,r)=0$.
+Let $A$ be this ten-state transfer and $w$ its labelled initial vector.
+The explicit certificate in \texttt{variant-certificate.json} gives
+\[
+ w\bigl(A^9-18A^8+56A^7+81A^6-280A^5-12A^4
+             +259A^3-78A^2-24A+5I\bigr)=0.
+\]
+Thus $\sum_{n\geq1}p_nz^{n-1}=H(z)/Q(z)$: the nine initial
+coefficient products give $H$, and the displayed vector identity
+annihilates all remaining coefficients. The involution gives
+$J_n=6(a_n+p_n)$, proving the stated generating functions.
+Since $N$ is coprime to $Q$, so is $N+HQ$; hence neither squared
+denominator cancels. The minimality argument of
+Proposition~\ref{prop:gf} gives order eighteen for both.
+The correction $6HQ$ has degree at most seventeen, so the coefficient
+of degree eighteen in either numerator is $6\cdot864=5184$.
+
+For each smaller strip the same proper-state restriction gives
+a transfer $A$ and initial vector $w$. With the polynomial $P$ of
+Corollary~\ref{cor:siblings}, the exact identities $wA^tP(A)=0$
+have shifts $t=0,0,0,0,0,1,1$ in the order of Table~\ref{tab:siblings};
+they imply its recurrence for the proper sector before the listed
+starting indices. Adding the proper and one-defect labelled counts
+therefore proves all seven at-most-one recurrences. The exactly-one
+case follows directly from the involution and the one-defect transfer;
+the exceptional one-colour row at $(n,k)=(1,2)$ does not enter any
+of the stated recurrence ranges.
+\end{proof}
+
+\begin{corollary}\label{cor:sum-boundary}
+The boundary values of these sum-two tables have the following formulas.
+For width one they are $0$ in the exactly-one table and $3^n$ in the
+at-most-one table. For one row of width $k$, the exactly-one count is
+$3(k-1)2^{k-2}$ for $k\geq2$, and the at-most-one count is
+$3(k+1)2^{k-2}$ for $k\geq2$; at $k=1$ the values are $0$ and $3$.
+Both one-row sequences satisfy the recurrence with coefficients
+$4,-4$ from $k=3$ onward.
+\end{corollary}
+\begin{proof}
+The involution reduces these to the labelled one-defect path count
+and that count plus the $3\cdot2^{k-1}$ proper path colourings.
+Substitution gives the asserted recurrence.
+\end{proof}
+
+\subsection{Why one-defect denominator bounds are squares}
+
+The following general statement is not posed in the entries.
+It separates structural rationality from the specific reduced
+denominators in Table~\ref{tab:siblings}.
+\begin{proposition}\label{prop:squares}
+Fix $k\geq3$ and use all labelled rows $\mathcal R_k=\{0,1,2\}^k$.
+Let $h(t)$ count horizontal defects in $t$, and let $b(p,t)$ count the
+diagonal defects between $p$ and $t$. For $j=0,1$ define
+\[
+ (u_j)_t=\ind_{h(t)=j},\qquad
+ (B_j)_{p,t}=\ind_{b(p,t)+h(t)=j},\qquad
+ R(z)=(I-zB_0)^{-1},
+\]
+and let $\boldsymbol1$ be the all-ones column vector. Then
+\begin{equation}\label{eq:resolvent}
+ \sum_{n\geq1}T(n,k)z^{n-1}
+  =\frac16\bigl(u_1R(z)\boldsymbol1
+       +z u_0R(z)B_1R(z)\boldsymbol1\bigr).
+\end{equation}
+Its reduced denominator divides $\det(I-zB_0)^2$.
+For fixed height $h\geq2$, let $c(p,t)$ be the column cost above, define
+$(C_j)_{p,t}=\ind_{c(p,t)=j}$ on all length-$h$ columns, and
+put $S(z)=(I-zC_0)^{-1}$. Then
+\begin{equation}\label{eq:column-resolvent}
+ \sum_{k\geq1}T(h,k)z^{k-1}
+  =\frac z6\boldsymbol1^{\mathsf T}S(z)C_1S(z)\boldsymbol1.
+\end{equation}
+Its reduced denominator divides $\det(I-zC_0)^2$.
+\end{proposition}
+\begin{proof}
+Work with formal power series. Mark each defect by a variable $t$,
+so the initial row vector is $u(t)=u_0+t u_1+O(t^2)$
+and the transfer is $B(t)=B_0+tB_1+O(t^2)$.
+The labelled-array generating function is
+$u(t)(I-zB(t))^{-1}\boldsymbol1$.
+Differentiating $(I-zB(t))(I-zB(t))^{-1}=I$ at $t=0$ gives
+$[t](I-zB(t))^{-1}=zR B_1R$.
+Taking $[t]$ and dividing by the six-element colour orbits proves
+\eqref{eq:resolvent}. The adjugate formula for $R$ proves the denominator
+bound. For a column sweep there are no internal edges, so the initial
+vector is $\boldsymbol1^{\mathsf T}$ and has no degree-one term in $t$.
+The same calculation gives~\eqref{eq:column-resolvent} and its bound.
+A constant array has either zero defects ($k=1$) or more than one
+($k\geq2,h\geq2$), so division by six is again valid.
+These determinant bounds need not be the reduced denominators.
+\end{proof}
+
+\subsection{Source-item and verification scope}
+
+\begin{center}
+\small
+\begin{tabular}{p{0.36\textwidth}p{0.53\textwidth}}
+\toprule
+Source item & Coverage\\
+\midrule
+A229532, Formula field & Proved for $n\geq20$; threshold and minimal
+eventual order determined.\\
+A229534, column six & The same count and recurrence, proved here.\\
+A229534, first row and column one & Corollary~\ref{cor:boundary}.\\
+A229534, columns two through five and rows two through four & Proved in
+Corollary~\ref{cor:siblings}, including the indicated empirical generating functions.\\
+A229534, column seven and rows five through seven & Their specific
+recurrence orders and thresholds are not covered. Proposition~\ref{prop:squares}
+proves rationality, not those reduced denominators.\\
+A269033 and A269050 & Proved in Corollary~\ref{cor:sum-two}, including
+minimality and the immediately preceding residual.\\
+A269035 and A269052 & The corresponding seven small-strip recurrences
+and boundary formulas above are proved. Their other specific orders
+and thresholds are not covered.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The \href{https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/CrossedStripDefectsWide/HardinA229532Strip.lean}{pinned Lean source}
+defines the literal row-major canonical count \texttt{a}; its declaration
+\texttt{result} states exactly
+\eqref{eq:recurrence} for all $n\geq20$.
+That source uses a 31-class transfer. The 42-state construction here
+instead uses only colour permutations and reflection.
+The orbit argument, recurrence deduction, generating-function reduction,
+and boundary counts are the written proofs above. The finite certificate
+covers the explicit transition counts, the two integer identities,
+the numerator coefficients, and the gcd over $\mathbb F_{101}$.
+The same exact transfer agrees with all 210 entries of Hardin's linked
+table and satisfies the recurrence at every height $20\leq n\leq212$;
+the proof for all heights is the deduction from
+\eqref{eq:vectorcertificate}--\eqref{eq:scalarcertificate}.
+Direct row-major enumeration also gives $40,368,7460,130854$ at heights
+one through four, without orbit normalization, and confirms the single-row
+counts at widths one through twelve.
+
+The sibling declarations linked here state precisely the recurrences in
+Table~\ref{tab:siblings}, for their literal canonical counts:
+\href{https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/CrossedStripDefects/HardinA229529Strip.lean}{A229529, $m\geq6$},
+\href{https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/CrossedStripDefects/HardinA229530Strip.lean}{A229530, $m\geq6$},
+\href{https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/CrossedStripDefects/HardinA229531Strip.lean}{A229531, $m\geq14$},
+\href{https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/StripDefects/HardinA229535Strip.lean}{A229535, $m\geq5$},
+\href{https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/CrossedStripDefects/HardinA229536Strip.lean}{A229536, $m\geq9$}, and
+\href{https://github.com/the-omega-institute/trureturing/blob/d8616462411eafc6cb7c737106df39a085726af1/D5/S3/StatisticalMechanics/Potts/CrossedStripDefectsWide/P4a/HardinA229537Strip.lean}{A229537, $m\geq15$}.
+In each file the declaration is the named strip namespace's
+\texttt{result}. These cover the indicated recurrences;
+the closed counts, rational functions, minimality and
+Proposition~\ref{prop:squares} have the written and finite proofs above.
+
+\begin{thebibliography}{9}
+\bibitem{hardin}
+R.\ H.\ Hardin, \emph{Number of defective 3-colorings of an
+$n\times6$ array}, The On-Line Encyclopedia of Integer Sequences,
+\href{https://oeis.org/A229532}{A229532}, submitted 25 September 2013,
+revision 8, 27 April 2021, Formula field.
+The \href{https://github.com/oeis/oeisdata/blob/571197984aeda7b8b680fe3a1f6a43f9898cd441/seq/A229/A229532.seq}{fixed source text}
+and \href{https://oeis.org/A229532/b229532.txt}{table of heights 1--210}
+specify the formula and initial values.
+
+\bibitem{family}
+R.\ H.\ Hardin, \emph{Number of defective 3-colorings of an
+$n\times k$ array}, The On-Line Encyclopedia of Integer Sequences,
+\href{https://oeis.org/A229534}{A229534}, submitted 25 September 2013,
+revision 11, 13 November 2026.
+\href{https://github.com/oeis/oeisdata/blob/49db7744e1fdbefbe376d1d018370c017d4c288b/seq/A229/A229534.seq}{Fixed source text},
+Comments and Formula fields.
+
+\bibitem{salas-sokal}
+J.\ Salas and A.\ D.\ Sokal, \emph{Transfer matrices and partition-function
+zeros for antiferromagnetic Potts models. I. General theory and
+square-lattice chromatic polynomial}, Journal of Statistical Physics
+\textbf{104} (2001), 609--699,
+\href{https://doi.org/10.1023/A:1010376605067}{doi:10.1023/A:1010376605067};
+\href{https://arxiv.org/abs/cond-mat/0004330v2}{arXiv:cond-mat/0004330v2},
+Section~3.1, equations~(3.1)--(3.11).
+
+\bibitem{siblings}
+R.\ H.\ Hardin, OEIS
+\href{https://oeis.org/A229529}{A229529},
+\href{https://oeis.org/A229530}{A229530},
+\href{https://oeis.org/A229531}{A229531},
+\href{https://oeis.org/A229535}{A229535},
+\href{https://oeis.org/A229536}{A229536}, and
+\href{https://oeis.org/A229537}{A229537}, submitted 25 September 2013,
+Formula fields; generating-function contributions by
+C.\ Barker (18 September 2018) and R.\ J.\ Mathar (13 November 2026).
+The texts are fixed at
+\href{https://github.com/oeis/oeisdata/tree/49db7744e1fdbefbe376d1d018370c017d4c288b/seq/A229}{this source snapshot}:
+A229529 revision 8, A229530 revision 8, A229531 revision 10,
+A229535 revision 8, A229536 revision 8, and A229537 revision 8.
+
+\bibitem{boundary-sources}
+P.\ Del\'eham, OEIS \href{https://oeis.org/A167682}{A167682},
+9 November 2009, Formula field (C.\ Barker, 21 January 2017), revision 22;
+B.~Wolf, OEIS \href{https://oeis.org/A057711}{A057711}, Name and Formula fields,
+submitted 24 October 2000, revision 163 (5 July 2026).
+
+\bibitem{sum-two}
+R.\ H.\ Hardin, OEIS
+\href{https://oeis.org/A269033}{A269033}, revision 4,
+\href{https://oeis.org/A269035}{A269035}, revision 4,
+\href{https://oeis.org/A269050}{A269050}, revision 6, and
+\href{https://oeis.org/A269052}{A269052}, revision 4,
+submitted 18 February 2016, Name and Formula fields;
+\href{https://github.com/oeis/oeisdata/tree/49db7744e1fdbefbe376d1d018370c017d4c288b/seq/A269}{fixed source snapshot}.
+\end{thebibliography}
+
+\medskip
+\noindent\small
+Copyright \copyright\ 2026 Haobo Ma and Wenlin Zhang.
+Licensed under the Creative Commons Attribution 4.0 International
+license (CC BY 4.0).
+\end{document}

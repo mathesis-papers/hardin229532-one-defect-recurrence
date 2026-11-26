@@ -1,0 +1,28 @@
+{
+  "id": "hardin229532-one-defect-recurrence",
+  "revision": 4,
+  "problem_ids": ["hardin229532", "hardin229529", "hardin229530", "hardin229531", "hardin229535", "hardin229536", "hardin229537"],
+  "topic": "Exact recurrences, reduced generating functions and one-defect transfer identities for horizontal-and-diagonal three-colour strips",
+  "title": "Proof of Hardin's width-six three-colour one-defect recurrence",
+  "creators": [
+    {"name": "Ma, Haobo", "affiliation": "ChronoAI Pte Ltd, Singapore"},
+    {"name": "Zhang, Wenlin", "affiliation": "National University of Singapore; ChronoAI Pte Ltd, Singapore"}
+  ],
+  "abstract": "We prove the empirical order-eighteen recurrence in R. H. Hardin's OEIS entry A229532, Formula field, revision 8 of 27 April 2021, for canonical three-colour n by 6 arrays with exactly one monochromatic horizontal, diagonal or antidiagonal bond, for every n >= 20. A 42-state transfer gives a finite integer certificate for all heights. The reduced rational generating function has minimal eventual order eighteen and discrepancy +864 at height nineteen. Seven smaller-strip recurrences and their sum-two variants follow from exact transfer identities. A general coefficient-extraction formula explains squared-denominator bounds.",
+  "summary": "The width-six proof is supplemented by seven smaller-strip recurrences, credited empirical generating functions, the A269033 sum-two equivalence and at-most-one variants, boundary counts, and a general resolvent identity.",
+  "license": "cc-by-4.0",
+  "evidence_url": "https://github.com/the-omega-institute/trureturing/blob/9849c0d81bfe0a953a10ad37400f5b1b61f028b5/D5/S3/StatisticalMechanics/Potts/CrossedStripDefectsWide/HardinA229532Strip.lean",
+  "posing_source_url": "https://github.com/oeis/oeisdata/blob/571197984aeda7b8b680fe3a1f6a43f9898cd441/seq/A229/A229532.seq#L8",
+  "posing_locator": "OEIS A229532, revision 8 (27 April 2021), Formula field, line 8; submitted by R. H. Hardin on 25 September 2013 (Author field, line 17)",
+  "formal_declarations": [
+    {"name": "D5.S3.StatisticalMechanics.Potts.CrossedStripDefectsWide.HardinA229532Strip.result", "scope": "The order-eighteen recurrence for the literal canonical width-six count at every height n >= 20", "revision": "9849c0d81bfe0a953a10ad37400f5b1b61f028b5"},
+    {"name": "D5.S3.StatisticalMechanics.Potts.CrossedStripDefects.HardinA229529Strip.result", "scope": "The width-three recurrence at every height n >= 6", "revision": "9849c0d81bfe0a953a10ad37400f5b1b61f028b5"},
+    {"name": "D5.S3.StatisticalMechanics.Potts.CrossedStripDefects.HardinA229530Strip.result", "scope": "The width-four recurrence at every height n >= 6", "revision": "9849c0d81bfe0a953a10ad37400f5b1b61f028b5"},
+    {"name": "D5.S3.StatisticalMechanics.Potts.CrossedStripDefects.HardinA229531Strip.result", "scope": "The width-five recurrence at every height n >= 14", "revision": "9849c0d81bfe0a953a10ad37400f5b1b61f028b5"},
+    {"name": "D5.S3.StatisticalMechanics.Potts.StripDefects.HardinA229535Strip.result", "scope": "The height-two recurrence at every width k >= 5", "revision": "9849c0d81bfe0a953a10ad37400f5b1b61f028b5"},
+    {"name": "D5.S3.StatisticalMechanics.Potts.CrossedStripDefects.HardinA229536Strip.result", "scope": "The height-three recurrence at every width k >= 9", "revision": "9849c0d81bfe0a953a10ad37400f5b1b61f028b5"},
+    {"name": "D5.S3.StatisticalMechanics.Potts.CrossedStripDefectsWide.P4a.HardinA229537Strip.result", "scope": "The height-four recurrence at every width k >= 15", "revision": "d8616462411eafc6cb7c737106df39a085726af1"}
+  ],
+  "written_proofs": ["Colour-orbit normalization and the exceptional one-colour two-cell row", "Exact row and column transfers", "Propagation from polynomial vector identities", "Reduced width-six generating function and minimal eventual order", "Single-row and width-one boundary formulas", "Alternate-column complementation for sum-two constraints", "Proper-sector addition and at-most-one recurrences", "General fixed-strip resolvent formulas and squared-determinant bounds"],
+  "finite_checks": ["All 729 width-six labelled rows and 432 admissible row-budget pairs", "42-coordinate vector identity and the first scalar case", "All 210 entries of the width-six source table", "Polynomial gcd over the field with 101 elements", "Direct canonical enumeration at heights one through four", "Seven sibling transfers and their proper sectors", "Barker and Mathar numerator identities", "Ten-state width-six proper-sector identity"]
+}
